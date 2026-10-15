@@ -57,7 +57,7 @@ fun FormDataDiri(modifier: Modifier = Modifier) {
     ) {
 
         Text(
-            text = "Form Data Diri",
+            text = "Formulir Data Diri",
             style = MaterialTheme.typography.headlineSmall
         )
 
