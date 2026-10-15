@@ -82,7 +82,7 @@ fun FormDataDiri(modifier: Modifier = Modifier) {
 
         // Pilihan jenis kelamin
         Text(
-            text = "Jenis Kelamin",
+            text = "Jenis Kelamin Anda",
             modifier = Modifier
                 .width(250.dp)
                 .padding(bottom = 4.dp)
