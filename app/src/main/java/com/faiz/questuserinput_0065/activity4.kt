@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.unit.dp
 
@@ -78,4 +79,23 @@ fun FormDataDiri(modifier: Modifier) {
                 )
             ),
             thickness = dimensionResource(id = R.dimen.divider_tipis),
+            color = Color.DarkGray
+        )
+        Button(
+            modifier = Modifier.fillMaxWidth(fraction = 1f),
+            // the button is enabled when the user makes a selection
+            enabled = textAlamat.isNotEmpty(),
+            onClick = {
+                nama=textNama
+                jenis=textJK
+                alamat=textAlamat
+            }
+        ) {
+            Text(stringResource(id = R.string.submit))
+        }
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                bottom =
+    }
+}
 }
