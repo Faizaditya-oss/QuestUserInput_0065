@@ -31,9 +31,9 @@ fun FormDataDiri(modifier: Modifier) {
     var alamat by remember { mutableStateOf(value = "") }
     var jenis by remember { mutableStateOf(value = "") }
 
-    Column(modifier = Modifier.padding(top = 50.dp)),
-        verticalArrangement= Arrangement.Top,
-        horizontalAligment = Aligment.CenterHorizontally) {
+    Column(modifier = Modifier.padding(top = 50.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally) {
         OutlinedTextField(
             value = textNama,
             singleLine = true,
@@ -44,21 +44,38 @@ fun FormDataDiri(modifier: Modifier) {
                 textNama = it
             }
         )
-
         Row {
             gender.forEach { item ->
-                Row(modifier = Modifier.selectable(
-                    selected = textJK == item,
-                    onClick = {textJK = item}
-                ), verticalAlignment = Aligment.CenterVertically) {
+                Row(
+                    modifier = Modifier.selectable(
+                        selected = textJK == item,
+                        onClick = { textJK = item }
+                    ), verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
                         selected = textJK == item,
                         onClick = {
-
-                        }
-                    )
+                            texJK = item
+                        })
+                    Text(item)
                 }
             }
         }
-    }
+        OutlinedTextField(
+            value = textAlamat,
+            singleLine = true,
+            modifier = Modifier.width(250.dp),
+            label = { Text("Alamat") },
+            onValueChange = {
+                texAlamat = it
+            }
+        )
+        HorizontalDivider(
+            modifier = Modifier.padding(
+                bottom =
+                    dimensionResource(id = R.dimen.padding_medium),
+                top = dimensionResource(
+                    id = R.dimen.padding_medium
+                )
+            ),
+            thickness = dimensionResource(id = R.dimen.divider_tipis),
 }
