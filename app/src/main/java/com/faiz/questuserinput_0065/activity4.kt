@@ -1,101 +1,199 @@
+
 package com.faiz.questuserinput_0065
 
-import android.R
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun FormDataDiri(modifier: Modifier) {
-    // Variabel" untuk mengingat nilai masukan dari keyboard
-    var textNama by remember { mutableStateOf(value = "") }
-    var textAlamat by remember { mutableStateOf(value = "") }
-    var textJK by remember { mutableStateOf(value = "") }
-    val gender: List<String> = ListOf("Laki - Laki", "Perempuan")
+fun FormDataDiri(modifier: Modifier = Modifier) {
 
+    // Menyimpan nilai masukan dari pengguna
+    var textNama by remember { mutableStateOf("") }
+    var textAlamat by remember { mutableStateOf("") }
+    var textJK by remember { mutableStateOf("") }
 
-    //
-    var nama by remember { mutableStateOf(value = "") }
-    var alamat by remember { mutableStateOf(value = "") }
-    var jenis by remember { mutableStateOf(value = "") }
+    // Menyimpan data setelah tombol Submit ditekan
+    var nama by remember { mutableStateOf("") }
+    var alamat by remember { mutableStateOf("") }
+    var jenis by remember { mutableStateOf("") }
+    var sudahSubmit by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.padding(top = 50.dp),
+    val gender = listOf("Laki-laki", "Perempuan")
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(
+                top = 50.dp,
+                start = 24.dp,
+                end = 24.dp,
+                bottom = 24.dp
+            ),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally) {
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Text(
+            text = "Form Data Diri",
+            style = MaterialTheme.typography.headlineSmall
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // Input nama lengkap
         OutlinedTextField(
             value = textNama,
-            singleLine = true,
-            shape = MaterialTheme.shapes.large,
-            modifier = Modifier.width(250.dp),
-            label = { Text(text = "Nama Lengkap") },
             onValueChange = {
                 textNama = it
+                sudahSubmit = false
+            },
+            modifier = Modifier.width(250.dp),
+            singleLine = true,
+            shape = MaterialTheme.shapes.large,
+            label = {
+                Text("Nama Lengkap")
             }
         )
-        Row {
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Pilihan jenis kelamin
+        Text(
+            text = "Jenis Kelamin",
+            modifier = Modifier
+                .width(250.dp)
+                .padding(bottom = 4.dp)
+        )
+
+        Row(
+            modifier = Modifier.width(250.dp),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             gender.forEach { item ->
                 Row(
-                    modifier = Modifier.selectable(
-                        selected = textJK == item,
-                        onClick = { textJK = item }
-                    ), verticalAlignment = Alignment.CenterVertically) {
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            textJK = item
+                            sudahSubmit = false
+                        }
+                ) {
                     RadioButton(
                         selected = textJK == item,
                         onClick = {
-                            texJK = item
-                        })
-                    Text(item)
+                            textJK = item
+                            sudahSubmit = false
+                        }
+                    )
+
+                    Text(
+                        text = item,
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Input alamat
         OutlinedTextField(
             value = textAlamat,
-            singleLine = true,
-            modifier = Modifier.width(250.dp),
-            label = { Text("Alamat") },
             onValueChange = {
-                texAlamat = it
+                textAlamat = it
+                sudahSubmit = false
+            },
+            modifier = Modifier.width(250.dp),
+            singleLine = true,
+            label = {
+                Text("Alamat")
             }
         )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         HorizontalDivider(
-            modifier = Modifier.padding(
-                bottom =
-                    dimensionResource(id = R.dimen.padding_medium),
-                top = dimensionResource(
-                    id = R.dimen.padding_medium
-                )
-            ),
-            thickness = dimensionResource(id = R.dimen.divider_tipis),
+            modifier = Modifier
+                .width(250.dp)
+                .padding(vertical = 8.dp),
+            thickness = 1.dp,
             color = Color.DarkGray
         )
+
+        // Tombol Submit
         Button(
-            modifier = Modifier.fillMaxWidth(fraction = 1f),
-            // the button is enabled when the user makes a selection
-            enabled = textAlamat.isNotEmpty(),
             onClick = {
-                nama=textNama
-                jenis=textJK
-                alamat=textAlamat
-            }
+                nama = textNama
+                alamat = textAlamat
+                jenis = textJK
+                sudahSubmit = true
+            },
+            modifier = Modifier
+                .width(250.dp),
+            enabled = textNama.isNotBlank() &&
+                    textAlamat.isNotBlank() &&
+                    textJK.isNotBlank()
         ) {
-            Text(stringResource(id = R.string.submit))
+            Text("Submit")
         }
-        HorizontalDivider(
-            modifier = Modifier.padding(
-                bottom =
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // Menampilkan hasil input setelah Submit
+        if (sudahSubmit) {
+            HorizontalDivider(
+                modifier = Modifier
+                    .width(250.dp)
+                    .padding(vertical = 8.dp),
+                thickness = 1.dp
+            )
+
+            Text(
+                text = "Hasil Data Diri",
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Nama: $nama",
+                modifier = Modifier.width(250.dp)
+            )
+
+            Text(
+                text = "Jenis Kelamin: $jenis",
+                modifier = Modifier.width(250.dp)
+            )
+
+            Text(
+                text = "Alamat: $alamat",
+                modifier = Modifier.width(250.dp)
+            )
+        }
     }
-}
 }
