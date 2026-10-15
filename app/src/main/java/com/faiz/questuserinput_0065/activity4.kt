@@ -74,7 +74,7 @@ fun FormDataDiri(modifier: Modifier = Modifier) {
             singleLine = true,
             shape = MaterialTheme.shapes.large,
             label = {
-                Text("Nama Lengkap")
+                Text("Nama Lengkap Anda")
             }
         )
 
